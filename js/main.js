@@ -1,10 +1,19 @@
-var base = {
-    newUser: function(id) {
-        this.users.push({litid: id, balanse: 0, lastTr: null});
-        userhash(this.users.length - 1);
-    },
+function userhash(user){
+    users[user].hash = md5(JSON.stringify(users[user]));
+}
 
-    users: [
+
+function newUser(id) {
+    users.push({litid: id, balanse: 0, lastTr: null});
+    userhash(users.length - 1);
+}
+
+function newTr(params){
+    op.his.push(params);
+    op.his[op.his.length - 1].prevHash = md5(JSON.stringify(op.his[op.his.length - 2]));
+}
+
+var users = [
         {
             litid: 0,
             balanse: 100,
@@ -18,17 +27,13 @@ var base = {
             hash: "0" 
         },
 
-    ]
+    ];
 
-};
 
-function userhash(user){
-    base.users[user].hash = md5(JSON.stringify(base.users[user]));
-}
 
 var methods = {
     push: function(x, id){
-        base.users[id].balanse += x;
+        users[id].balanse += x;
         userhash(id);
 
     },
@@ -44,13 +49,10 @@ var methods = {
 
 var op = {
 
-    newTr: function(params){
-        this.his.push(params);
-        this.his[this.his.length - 1].prevHash = md5(JSON.stringify(this.his[this.his.length - 2]));
-    },
+    
 
     his: [
-        {coin: 0, val: "PUSH 100", loss: "0", user: base.users.Lit},
-        {coin: 100, val: "BET 10", loss: "0", user: base.users.Fed, prevHash: "0"},
+        {coin: 0, val: "PUSH 100", loss: "0", user: users.Lit},
+        {coin: 100, val: "BET 10", loss: "0", user: users.Fed, prevHash: "0"},
     ]
 };
